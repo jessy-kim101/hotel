@@ -1,5 +1,5 @@
 {
-  "id": "615de714-2b74-4d6f-afae-49fc7d65bffc",
+  "id": "8c40322d-36f6-4cce-9a53-1bb66ab627f8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -170,8 +170,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.payment": {
-      "name": "payment",
+    "public.payments": {
+      "name": "payments",
       "schema": "",
       "columns": {
         "payment_id": {
@@ -234,9 +234,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "payment_booking_id_bookings_booking_id_fk": {
-          "name": "payment_booking_id_bookings_booking_id_fk",
-          "tableFrom": "payment",
+        "payments_booking_id_bookings_booking_id_fk": {
+          "name": "payments_booking_id_bookings_booking_id_fk",
+          "tableFrom": "payments",
           "tableTo": "bookings",
           "columnsFrom": [
             "booking_id"
@@ -250,8 +250,8 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "payment_transaction_id_unique": {
-          "name": "payment_transaction_id_unique",
+        "payments_transaction_id_unique": {
+          "name": "payments_transaction_id_unique",
           "nullsNotDistinct": false,
           "columns": [
             "transaction_id"

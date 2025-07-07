@@ -13,6 +13,7 @@ export const usersTable = pgTable("users", {
     contact_phone: varchar("contact_phone", { length: 20 }),
     address: varchar("address", { length: 255 }),
     role: varchar("role", { length: 50 }).notNull().default("user"), // e.g., 'admin', 'user'
+     is_verified: boolean("is_verified").default(false),
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).defaultNow(),
 });

@@ -10,9 +10,9 @@ async function seed() {
 
     // insert users
     await db.insert(usersTable).values([
-        { firstname: "Mary", lastname: "Jane", email: "maryjane420@gmail.com", password: "jane#420", contact_phone: "0729574820", address: "Nyeri", role: "user" , created_at: new Date(), updated_at: new Date() },
-         { firstname: "Alice", lastname: "Njeri", email: "njerialice254@gmail.com", password: "njeripass9@2010", contact_phone: "0730472957", address: "Nairobi", role: "user" , created_at: new Date(), updated_at: new Date() },
-          { firstname: "Brian", lastname: "Doe", email: "doebrian123@gmail.com", password: "b234513", contact_phone: "0112737450", address: "Mombasa", role: "admin" , created_at: new Date(), updated_at: new Date() },
+        { firstname: "Mary", lastname: "Jane", email: "maryjane420@gmail.com", password: "jane#420", contact_phone: "0729574820", address: "Nyeri", role: "user" ,is_verified: true , created_at: new Date(), updated_at: new Date() },
+         { firstname: "Alice", lastname: "Njeri", email: "njerialice254@gmail.com", password: "njeripass9@2010", contact_phone: "0730472957", address: "Nairobi", role: "user" , is_verified: false , created_at: new Date(), updated_at: new Date() },
+          { firstname: "Brian", lastname: "Doe", email: "doebrian123@gmail.com", password: "b234513", contact_phone: "0112737450", address: "Mombasa", role: "admin" , is_verified:true , created_at: new Date(), updated_at: new Date() },
     ]);
 
     // insert hotels

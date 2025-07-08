@@ -9,7 +9,7 @@ export const createAuthService = async (userData: TIUser) => {
             lastname: userData.lastname,
             email: userData.email,
             password: userData.password,
-            is_verified: userData.is_verified || false,
+         
            
         };
 

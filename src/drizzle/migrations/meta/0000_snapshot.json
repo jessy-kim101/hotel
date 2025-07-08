@@ -1,5 +1,5 @@
 {
-  "id": "94f48537-52b0-4663-b343-00db87804733",
+  "id": "7abbefe2-8723-4cf5-a4c4-33585352804a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -463,6 +463,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'user'"
+        },
+        "is_verified": {
+          "name": "is_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "created_at": {
           "name": "created_at",

@@ -3,7 +3,6 @@ import { bookingsTable } from '../drizzle/schemas';
 import { TIbooking } from '../../types';
 import { sql } from 'drizzle-orm';
 import { on } from 'nodemailer/lib/xoauth2';
-import { getAllPaymentsService } from './paymentsservice';
 
 
 export const createBookingService = async (booking:TIbooking) => {
@@ -66,5 +65,16 @@ export const getAllBookingsService = async () => {
     });
     return getAllBookingsService;
 }
-
-
+export const updateBookingService = async (bookingId: number, booking: TIbooking) => {
+    const updatedBooking = await db.update(bookingsTable)
+        .set(booking)
+        .where(sql`${bookingsTable.booking_id} = ${bookingId}`)
+        .returning();
+    return updatedBooking;
+}
+export const deleteBookingService = async (bookingId: number) => {
+    const deletedBooking = await db.delete(bookingsTable)
+        .where(sql`${bookingsTable.booking_id} = ${bookingId}`)
+        .returning();
+    return deletedBooking;
+}

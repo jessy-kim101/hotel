@@ -43,4 +43,19 @@ const room = await db.query.roomsTable.findFirst({
     },
      where: sql`${roomsTable.room_id} = ${roomId}`
 });
+    return room;
   }        
+
+  export const updateRoomService = async (roomId: number, room: TIroom) => {
+    const updatedRoom = await db.update(roomsTable)
+        .set(room)
+        .where(sql`${roomsTable.room_id} = ${roomId}`)
+        .returning();
+    return updatedRoom;
+}
+export const deleteRoomService = async (roomId: number) => {
+    const deletedRoom = await db.delete(roomsTable)
+        .where(sql`${roomsTable.room_id} = ${roomId}`)
+        .returning();
+    return deletedRoom;
+}

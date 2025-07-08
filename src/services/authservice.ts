@@ -9,6 +9,7 @@ export const createAuthService = async (userData: TIUser) => {
             lastname: userData.lastname,
             email: userData.email,
             password: userData.password,
+            is_verified: userData.is_verified || false,
            
         };
 
@@ -57,6 +58,7 @@ export const loginAuthService = async (user: TIUser) => {
             email: true,
             password: true,
             role: true,
+            is_verified: true
         
         },
         where: sql`${usersTable.email}=${email}`

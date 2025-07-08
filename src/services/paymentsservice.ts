@@ -86,3 +86,17 @@ export const getPaymentByIdService = async (paymentId: number) => {
         where: sql`${paymentsTable.payment_id} = ${paymentId}`
     });
 }
+
+export const updatePaymentService = async (paymentId: number, payment: TIpayment) => {
+    const updatedPayment = await db.update(paymentsTable)
+        .set(payment)
+        .where(sql`${paymentsTable.payment_id} = ${paymentId}`)
+        .returning();
+    return updatedPayment;
+}
+export const deletePaymentService = async (paymentId: number) => {
+    const deletedPayment = await db.delete(paymentsTable)
+        .where(sql`${paymentsTable.payment_id} = ${paymentId}`)
+        .returning();
+    return deletedPayment;
+}

@@ -41,3 +41,17 @@ export const getTicketsByIdService = async (ticketId: number) => {
     });
     return ticket;
 }
+
+export const updateTicketService = async (ticketId: number, ticket: TIticket) => {
+    const updatedTicket = await db.update(ticketsTable)
+        .set(ticket)
+        .where(sql`${ticketsTable.ticket_id} = ${ticketId}`)
+        .returning();
+    return updatedTicket;
+}
+export const deleteTicketService = async (ticketId: number) => {
+    const deletedTicket = await db.delete(ticketsTable)
+        .where(sql`${ticketsTable.ticket_id} = ${ticketId}`)
+        .returning();
+    return deletedTicket;
+}

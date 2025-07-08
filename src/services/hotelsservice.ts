@@ -61,4 +61,18 @@ export const getHotelByIdService = async (hotelId: number) => {
 
         where: sql`${hotelsTable.hotel_id} = ${hotelId}`
     });
+    return hotel;
+}
+export const updateHotelService = async (hotelId: number, hotel: TIhotel) => {
+    const updatedHotel = await db.update(hotelsTable)
+        .set(hotel)
+        .where(sql`${hotelsTable.hotel_id} = ${hotelId}`)
+        .returning();
+    return updatedHotel;
+}
+export const deleteHotelService = async (hotelId: number) => {
+    const deletedHotel = await db.delete(hotelsTable)
+        .where(sql`${hotelsTable.hotel_id} = ${hotelId}`)
+        .returning();
+    return deletedHotel;
 }

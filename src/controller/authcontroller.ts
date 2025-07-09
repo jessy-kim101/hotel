@@ -21,7 +21,7 @@ export const creatUserController = async (req: Request, res: Response) => {
         const userData: TIUser = req.body;
         const password = userData.password;
         userData.password = await bcrypt.hashSync(password, 10);
-        userData.role = userData.role || 'customer'; // Default role is customer
+        userData.role = userData.role || 'user'; // Default role is user
         
         try {
             const createUser = await createAuthService(userData);

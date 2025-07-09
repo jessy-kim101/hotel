@@ -50,7 +50,7 @@ export const bookingsTable = pgTable("bookings", {
     room_id: integer("room_id").notNull().references(() => roomsTable.room_id, { onDelete: "cascade" }),
     check_in_date: date("check_in_date").notNull(),
     check_out_date: date("check_out_date").notNull(),
-    totalamount: decimal("totalamount", { precision: 10, scale: 2 }),
+    totalamount: integer("totalamount").notNull(), // Total amount for the booking  
     booking_status: varchar("booking_status", { length: 50 }).notNull().default("pending"), // e.g., 'pending', 'confirmed', 'cancelled'
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).defaultNow(),
@@ -60,8 +60,8 @@ export const bookingsTable = pgTable("bookings", {
 export const paymentsTable = pgTable("payments", {
     payment_id: serial("payment_id").primaryKey(),
     booking_id: integer("booking_id").notNull().references(() => bookingsTable.booking_id, { onDelete: "cascade" }),
-    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(), // {precision: 10, scale: 2} means 10 digits total, 2 of which are after the decimal point. i.e // 12345678.90
-    payment_status: varchar("payment_status", { length: 50 }).notNull().default("pending"), // e.g., 'pending', 'completed', 'failed'
+    amount: integer("amount").notNull(), // {precision: 10, scale: 2} means 10 digits total, 2 of which are after the decimal point. i.e // 12345678.90
+    payment_status: varchar("payment_status", { length: 50 }).notNull().default("confirmed"), // e.g., 'pending', 'completed', 'failed'
     payment_date: date("payment_date").notNull(),
     payment_method: text("payment_method").notNull(), // e.g., 'credit_card', 'cash', 'bank_transfer'
     transaction_id: varchar("transaction_id", { length: 100 }).notNull().unique(), // Unique identifier for the transaction

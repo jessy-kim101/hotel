@@ -4,7 +4,7 @@ CREATE TABLE "bookings" (
 	"room_id" integer NOT NULL,
 	"check_in_date" date NOT NULL,
 	"check_out_date" date NOT NULL,
-	"totalamount" numeric(10, 2),
+	"totalamount" integer NOT NULL,
 	"booking_status" varchar(50) DEFAULT 'pending' NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
@@ -25,8 +25,8 @@ CREATE TABLE "hotels" (
 CREATE TABLE "payments" (
 	"payment_id" serial PRIMARY KEY NOT NULL,
 	"booking_id" integer NOT NULL,
-	"amount" numeric(10, 2) NOT NULL,
-	"payment_status" varchar(50) DEFAULT 'pending' NOT NULL,
+	"amount" integer NOT NULL,
+	"payment_status" varchar(50) DEFAULT 'confirmed' NOT NULL,
 	"payment_date" date NOT NULL,
 	"payment_method" text NOT NULL,
 	"transaction_id" varchar(100) NOT NULL,

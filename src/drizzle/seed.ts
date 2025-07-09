@@ -29,14 +29,14 @@ async function seed() {
 
     // insert bookings
     await db.insert(bookingsTable).values([
-        { user_id: 1, room_id: 1, check_in_date: new Date("2025-08-10").toISOString().split("T")[0], check_out_date: new Date("2025-08-15").toISOString().split("T")[0], totalamount: "600.00", booking_status: "confirmed", created_at: new Date(), updated_at: new Date() },
-        { user_id: 2, room_id: 2, check_in_date: new Date("2025-01-06").toISOString().split("T")[0], check_out_date: new Date("2025-01-20").toISOString().split("T")[0], totalamount: "400.00", booking_status: "pending", created_at: new Date(), updated_at: new Date() },
+        { user_id: 1, room_id: 1, check_in_date: new Date("2025-08-10").toISOString().split("T")[0], check_out_date: new Date("2025-08-15").toISOString().split("T")[0], totalamount: 600.00, booking_status: "pending", created_at: new Date(), updated_at: new Date() },
+        { user_id: 2, room_id: 2, check_in_date: new Date("2025-01-06").toISOString().split("T")[0], check_out_date: new Date("2025-01-20").toISOString().split("T")[0], totalamount: 400.00, booking_status: "pending", created_at: new Date(), updated_at: new Date() },
     ]);
 
     // insert payments
     await db.insert(paymentsTable).values([
-        { booking_id: 2, amount: "600.00", payment_status: "confirmed", payment_date: new Date("2025-07-20").toISOString().split("T")[0], payment_method: "mpesa", transaction_id: "TXN987654321", created_at: new Date(), updated_at: new Date() },
-        { booking_id: 1, amount: "400.00", payment_status: "pending", payment_date: new Date("2025-07-20").toISOString().split("T")[0], payment_method: "cash", transaction_id: "TXN12345678", created_at: new Date(), updated_at: new Date() },
+        { booking_id: 2, amount: 600.00, payment_status: "confirmed", payment_date: new Date("2025-07-20").toISOString().split("T")[0], payment_method: "mpesa", transaction_id: "TXN987654321", created_at: new Date(), updated_at: new Date() },
+        { booking_id: 1, amount: 400.00, payment_status: "confirmed", payment_date: new Date("2025-07-20").toISOString().split("T")[0], payment_method: "cash", transaction_id: "TXN12345678", created_at: new Date(), updated_at: new Date() },
     ]);
 
     // insert tickets

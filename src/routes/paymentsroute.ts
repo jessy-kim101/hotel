@@ -1,4 +1,4 @@
-import { getAllPaymentsController, getPaymentByIdController } from '../controller/paymentscontroller';
+import { getAllPaymentsController, getPaymentByIdController, createPaymentController } from '../controller/paymentscontroller';
 import { Express } from "express";
 
 
@@ -13,6 +13,16 @@ export const paymentRoute = (app: Express) => {
             }
         }
     );
+
+    app.route("/payments").post(
+            async (req, res, next) => {
+                try {
+                    await createPaymentController(req, res);
+                } catch (error) {
+                    next(error);
+                }
+            }
+        )
 
     app.route("/payments/:id").get(
         async (req, res, next) => {

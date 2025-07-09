@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 export const createRoomController = async (req: Request, res: Response) => {
     try {
         const roomData = req.body;
-        if (!roomData.hotel_id || !roomData.room_type || !roomData.room_number || !roomData.price_per_night || !roomData.amenities || !roomData.capacity) {
+        if (!roomData.hotel_id || !roomData.room_type  || !roomData.price_per_night || !roomData.amenities || !roomData.capacity) {
             return res.status(400).json({ error: "Missing required fields" });
         }
         const newRoom = await createRoomService(roomData);

@@ -58,7 +58,7 @@ export const loginAuthService = async (user: TIUser) => {
             email: true,
             password: true,
             role: true,
-            is_verified: true
+            is_verified: true,
         
         },
         where: sql`${usersTable.email}=${email}`

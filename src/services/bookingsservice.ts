@@ -4,12 +4,13 @@ import { TIbooking } from '../../types';
 import { sql } from 'drizzle-orm';
 import { on } from 'nodemailer/lib/xoauth2';
 
-
 export const createBookingService = async (booking:TIbooking) => {
     const newBooking = await db.insert(bookingsTable).values(booking).returning();
     return newBooking;
     
 }
+
+
 
 export const getBookingService = async (bookingId: number) => {
     return await db.query.bookingsTable.findFirst({
@@ -63,15 +64,16 @@ export const getAllBookingsService = async () => {
             }
         },
     });
-    return getAllBookingsService;
 }
 export const updateBookingService = async (bookingId: number, booking: TIbooking) => {
-    const updatedBooking = await db.update(bookingsTable)
-        .set(booking)
-        .where(sql`${bookingsTable.booking_id} = ${bookingId}`)
-        .returning();
-    return updatedBooking;
-}
+  const updatedBooking = await db.update(bookingsTable)
+    .set(booking)
+    .where(sql`${bookingsTable.booking_id} = ${bookingId}`)
+    .returning();
+
+  return updatedBooking[0]; // ✅ Return a single updated booking
+};
+
 export const deleteBookingService = async (bookingId: number) => {
     const deletedBooking = await db.delete(bookingsTable)
         .where(sql`${bookingsTable.booking_id} = ${bookingId}`)

@@ -3,10 +3,6 @@ import { TIbooking } from '../../../jess/types';
 import { Request, Response } from 'express';
 
 
-
-
-
-
 export const createBookingController = async (req:Request,res:Response) => {
     try {
         const newBooking = req.body;
@@ -58,23 +54,26 @@ export const getBookingByIdController = async (req: Request, res: Response) => {
 };
 
 export const updateBookingController = async (req: Request, res: Response) => {
-    try {
-        const bookingId = parseInt(req.params.id, 10);
-        if (isNaN(bookingId)) {
-            return res.status(400).json({ error: 'Invalid booking ID' });
-        }
-        const updatedBookingData = req.body;
-        const updatedBooking = await updateBookingService(bookingId, updatedBookingData);
-        if (updatedBooking.length === 0) {
-            return res.status(404).json({ message: 'Booking not found or update failed' });
-        }
-        res.status(200).json(updatedBooking[0]);
-        
-    } catch (error) {
-        console.error('Error updating booking:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+  try {
+    const bookingId = parseInt(req.params.id, 10);
+    if (isNaN(bookingId)) {
+      return res.status(400).json({ error: 'Invalid booking ID' });
     }
+
+    const updatedBookingData = req.body;
+    const updatedBooking = await updateBookingService(bookingId, updatedBookingData);
+
+    if (!updatedBooking) {
+      return res.status(404).json({ message: 'Booking not found or update failed' });
+    }
+
+    res.status(200).json(updatedBooking);
+  } catch (error) {
+    console.error('Error updating booking:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 export const deleteBookingController = async (req: Request, res: Response) => {
     try {
         const bookingId = parseInt(req.params.id, 10);

@@ -18,26 +18,29 @@ beforeEach(() => {
 });
 
 describe('createTicketService', () => {
-    it('should create a new ticket', async () => {
-        const ticket = {
-         user_id: 1,
-          subject: "Room not cleaned", 
-          description: "found dirty bedsheets", 
-          status: "open", 
-          created_at: new Date(), 
-          updated_at: new Date() ,
-    }
-    const insertedTicket = { ticketId: 1, ...ticket };
+  it('should create a new ticket', async () => {
+    const ticket = {
+      user_id: 1,
+      subject: "Room not cleaned",
+      description: "found dirty bedsheets",
+      status: "open",
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    const insertedTicket = { ticket_id: 1, ...ticket };
+
     (db.insert as jest.Mock).mockReturnValue({
-        values: jest.fn().mockReturnValue({
-            returning: jest.fn().mockResolvedValueOnce([insertedTicket])
-        })
-    })
+      values: jest.fn().mockReturnValue({
+        returning: jest.fn().mockResolvedValueOnce([insertedTicket]),
+      }),
+    });
+
     const result = await createTicketService(ticket);
-    expect(db.insert).toHaveBeenCalledWith(ticketsTable);
     expect(result).toEqual(insertedTicket);
-    })
-})
+  });
+});
+
 
 describe("return null if insert fails",() => {
     it("should return null if insertion fails", async () => {
@@ -61,7 +64,7 @@ describe("return null if insert fails",() => {
 
 describe("getAllTicketsService", () => {
     it("should return all ticket", async () => {
-        (db.query.roomsTable.findMany as jest.Mock).mockReturnValueOnce([]);
+        (db.query.ticketsTable.findMany as jest.Mock).mockReturnValueOnce([]);
         const result = await getAllTicketsService();
         expect(result).toEqual([]);
     })

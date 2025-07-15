@@ -6,7 +6,7 @@ import { on } from 'nodemailer/lib/xoauth2';
 
 export const createBookingService = async (booking:TIbooking) => {
     const newBooking = await db.insert(bookingsTable).values(booking).returning();
-    return newBooking;
+    return newBooking[0] ?? null;
     
 }
 

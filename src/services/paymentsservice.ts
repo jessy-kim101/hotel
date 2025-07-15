@@ -6,8 +6,8 @@ import { sql } from "drizzle-orm";
 
 
 export const createPaymentService = async (payment:TIpayment) => {
-    const newpayment = await db.insert(paymentsTable).values(payment)
-    return newpayment;
+    const newPayment = await db.insert(paymentsTable).values(payment).returning();
+    return newPayment[0] ?? null;
 
 }
 
@@ -84,7 +84,9 @@ export const getPaymentByIdService = async (paymentId: number) => {
             }
         },
         where: sql`${paymentsTable.payment_id} = ${paymentId}`
+        
     });
+    return payment;
 }
 
 export const updatePaymentService = async (paymentId: number, payment: TIpayment) => {

@@ -4,9 +4,11 @@ import { TIroom } from '../../types';
 import { sql } from "drizzle-orm";
 
 export const createRoomService = async (room: TIroom) => {
-    const newRoom = await db.insert(roomsTable).values(room).returning();
-    return newRoom[0];
-}
+  const newRoom = await db.insert(roomsTable).values(room).returning();
+  if (!newRoom || newRoom.length === 0) return null;
+  return newRoom[0];
+};
+
 
 
 

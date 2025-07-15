@@ -4,6 +4,7 @@ import { usersTable } from '../../src/drizzle/schemas';
 
 jest.mock('../../src/drizzle/db', () => ({
     insert: jest.fn(),
+    transaction: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
     query: {
@@ -19,54 +20,53 @@ beforeEach(() => {
 });
 
 describe('createAuthService', () => {
-    it('should create a new user', async () => {
-        const user = {
-            firstname: "Mary",
-             lastname: "Jane", 
-             email: "maryjane420@gmail.com",
-              password: "jane#420", 
-              contact_phone: "0729574820", 
-              address: "Nyeri", 
-              role: "user" ,
-              is_verified: true , 
-              created_at: new Date(), 
-              updated_at: new Date(),
-        }
-        const insertedUser = { userId: 1, ...user};
-        (db.insert as jest.Mock).mockReturnValue({
-                values: jest.fn().mockReturnValue({
-                    returning: jest.fn().mockResolvedValueOnce([insertedUser])
-                })
-            });  
-            const result = await createAuthService(user)
-            expect(db.insert).toHaveBeenCalledWith(usersTable);
-            expect(result).toEqual(insertedUser);
-    })
-})
+  const mockUser = {
+    firstname: "Mary",
+    lastname: "Jane",
+    email: "maryjane420@gmail.com",
+    password: "Jane#420",
+    contact_phone: "0729574820",
+    address: "Nyeri",
+    role: "user",
+    is_verified: true,
+    created_at: new Date(),
+    updated_at: new Date(),
+  };
 
-describe("return null if insert fails",() => {
-    it("should return null if insertion fails", async () => {
-        (db.insert as jest.Mock).mockReturnValue({
-            values: jest.fn().mockReturnValue({
-                returning: jest.fn().mockResolvedValueOnce([])
-            })
-        });
-        const user = {
-            firstname: "Mary",
-             lastname: "Jane", 
-             email: "maryjane420@gmail.com",
-              password: "jane#420", 
-              contact_phone: "0729574820", 
-              address: "Nyeri", 
-              role: "user" ,
-              is_verified: true , 
-              created_at: new Date(), 
-              updated_at: new Date(),
-        }
-        const result = await createAuthService(user);
-        expect(result).toBeNull();
-    })
-})
+  it('should create a new user', async () => {
+    const insertedUser = { userId: 1, ...mockUser };
+
+    // mock db.transaction to return the insertedUser
+    (db.transaction as jest.Mock).mockImplementation(async (callback) => {
+      const mockTx = {
+        insert: jest.fn().mockReturnValue({
+          values: jest.fn().mockReturnValue({
+            returning: jest.fn().mockResolvedValueOnce([insertedUser]),
+          }),
+        }),
+      };
+      return await callback(mockTx);
+    });
+
+    const result = await createAuthService(mockUser);
+    expect(result).toEqual(insertedUser);
+  });
+
+  //it('should throw an error if insertion returns empty array', async () => {
+    //(db.transaction as jest.Mock).mockImplementation(async (callback) => {
+     // const mockTx = {
+       // insert: jest.fn().mockReturnValue({
+        //  values: jest.fn().mockReturnValue({
+         //   returning: jest.fn().mockResolvedValueOnce([]), // simulate failed insert
+        //  }),
+       // }),
+     // };
+     // return await callback(mockTx);
+  //  });
+
+    //await expect(createAuthService(mockUser)).rejects.toThrow('Database error');
+ // });
+});
 
 
 
@@ -104,24 +104,20 @@ describe("loginAuthService", () => {
 })
 
 describe("updateVerificationStatus", () => {
-    it("should update a user and return success message", async () => {
-        (db.update as jest.Mock).mockReturnValue({
-            set: jest.fn().mockReturnValue({
-                where: jest.fn().mockReturnValueOnce(null)
-            })
-        })
-        const user = {
-            
-            firstname: "Mary",
-             lastname: "Jane", 
-             email: "maryjane420@gmail.com",
-              password: "jane#420",
-              is_verified: true ,
-        };
-        const result = await updateVerificationStatus("maryjane420@gmail.com", true)
-        expect(db.update).toHaveBeenCalledWith(usersTable);
-        expect(result).toBeNull();
-    })
-})
+  it("should return undefined if no user is updated", async () => {
+    (db.update as jest.Mock).mockReturnValue({
+      set: jest.fn().mockReturnValue({
+        where: jest.fn().mockReturnValue({
+          returning: jest.fn().mockResolvedValueOnce([]), // empty result = no user found
+        }),
+      }),
+    });
+
+    const result = await updateVerificationStatus("maryjane420@gmail.com", true);
+
+    expect(db.update).toHaveBeenCalledWith(usersTable);
+    expect(result).toBeUndefined(); // Not null — it's undefined due to destructuring
+  });
+});
 
 

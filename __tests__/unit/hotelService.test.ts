@@ -69,8 +69,8 @@ describe("getAllHotelService", () => {
         const result = await getAllHotelService();
         expect(result).toEqual([]);
     })
-    it("should return an empty array if no bookings found", async () => {
-        (db.query.paymentsTable.findMany as jest.Mock).mockReturnValueOnce([]);
+    it("should return an empty array if no hotels found", async () => {
+        (db.query.hotelsTable.findMany as jest.Mock).mockReturnValueOnce([]);
         const result = await getAllHotelService();
         expect(result).toEqual([]);
     })
@@ -90,11 +90,11 @@ describe("getHotelByIdService", () => {
     };
         (db.query.hotelsTable.findFirst as jest.Mock).mockReturnValueOnce(hotel);
         const result = await getHotelByIdService(1)
-        expect(db.query.bookingsTable.findFirst).toHaveBeenCalled();
+        expect(db.query.hotelsTable.findFirst).toHaveBeenCalled();
         expect(result).toEqual(hotel);
     })
     it('should return null if hotel not found', async () => {
-        (db.query.bookingsTable.findFirst as jest.Mock).mockReturnValueOnce(null);
+        (db.query.hotelsTable.findFirst as jest.Mock).mockReturnValueOnce(null);
         const result = await getHotelByIdService(9999);
         expect(result).toBeNull();
     })

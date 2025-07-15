@@ -4,11 +4,11 @@ import { TIticket } from '../../types';
 import { sql } from "drizzle-orm";
 
 
-export const createTicketService = async (ticket:TIticket) => {
-    const newticket = await db.insert(ticketsTable).values(ticket)
-    return newticket;
+export const createTicketService = async (ticket: TIticket) => {
+  const [newTicket] = await db.insert(ticketsTable).values(ticket).returning();
+  return newTicket ?? null;
+};
 
-}
 
 export const getAllTicketsService = async () => {
     const allTickets = await db.query.ticketsTable.findMany({

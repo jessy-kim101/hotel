@@ -7,7 +7,7 @@ import { sql } from "drizzle-orm";
 
 export const createHotelService = async (hotel:TIhotel) => {
    const newHotel = await db.insert(hotelsTable).values(hotel).returning();
-   return newHotel;
+   return newHotel[0] ?? null;
     
 }
 

@@ -1,24 +1,22 @@
 import { createTicketService, deleteTicketService, getAllTicketsService, getTicketsByIdService, updateTicketService } from '../services/ticketsservice';
 import { Request, Response } from "express";
 
-
-
-
-
-
-
 export const createTicketController = async (req: any, res: any) => {
     try {
+
+        console.log("createTicketController called");
         const ticketData = req.body;
         if (!ticketData.user_id || !ticketData.subject || !ticketData.description) {
+            console.log("missing required fields");
             return res.status(400).json({ message: "Missing required fields" });
         }
         const newComplain = await createTicketService(ticketData);
-        res.status(201).json(ticketData);
+        console.log("ticket created", newComplain);
+        res.status(201).json(newComplain);
         
     } catch (error) {
         console.error("Error creating customer ticket:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error });
         
     }
 }

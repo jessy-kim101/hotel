@@ -26,7 +26,6 @@ export const createRoomController = async (req: Request, res: Response) => {
 export const getAllRoomsController = async (req: Request, res: Response) => {
     try {
 
-        const rooms = req.body;
         const allRooms = await getAllRoomsService();
         if (!allRooms || allRooms.length === 0) {
             return res.status(404).json({ error: "No rooms found" });

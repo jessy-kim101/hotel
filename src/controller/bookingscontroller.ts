@@ -3,23 +3,29 @@ import { TIbooking } from '../../../jess/types';
 import { Request, Response } from 'express';
 
 
-export const createBookingController = async (req:Request,res:Response) => {
-    try {
-        const newBooking = req.body;
-        const createBooking = await createBookingService(newBooking);
-       if (createBooking.length === 0) {
-            return res.status(400).json({ error: 'Booking creation failed' });
-        }
-        res.status(201).json(createBooking[0]);
+export const createBookingController = async (req: Request, res: Response) => {
+  try {
+    const newBooking = req.body;
+    console.log('Creating booking with:', newBooking);
 
-        
-    } catch (error) {
-        console.error('Error creating booking:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-        
-    }
-    
+    const createBooking = await createBookingService(newBooking);
+
+    if (!newBooking || (Array.isArray(newBooking) && newBooking.length === 0)) {
+  return res.status(400).json({ error: 'Booking creation failed' });
 }
+
+
+    res.status(201).json({
+      message: 'Booking created successfully',
+      booking: createBooking
+    });
+
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 export const getAllBookingController = async (req: Request, res: Response) => {
     try {

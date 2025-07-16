@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 
 export const createHotelController = async (req:Request,res:Response) => {
     try {
+        console.log("Create hotel controller req body:", req.body);
         const hotel= req.body;
 
         const newHotel = await createHotelService(hotel)
@@ -14,7 +15,11 @@ export const createHotelController = async (req:Request,res:Response) => {
         if (!newHotel) {
             return res.status(400).json({ error: "Hotel creation failed" });
         }
-        res.status(201).json(newHotel);
+        res.status(201).json({
+       message: "Hotel created successfully",
+        hotel: newHotel,
+});
+
 
         
     } catch (error) {

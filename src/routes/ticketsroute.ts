@@ -46,7 +46,7 @@ export const ticketRoute = (app:Express)=>{
         async (req, res, next) => {
             try {
                 await updateTicketsController(req, res);
-                res.status(200).json({ message: 'Ticket updated successfully' });
+                
                 
             } catch (error) {
                 next(error);

@@ -7,7 +7,7 @@ import {authRoute} from '../../src/routes/authroute';
 
 const app = express();
 app.use(express.json());
-app.use('/auth', authRoute)
+authRoute(app);
 
 export default app;
 
@@ -122,7 +122,7 @@ describe('Auth Controller Integration Tests', () => {
       const email = 'janedoe@example.com';
       const code = '123456';
 
-      const { verificationCodes } = jest.requireActual('../../src/controllers/authcontroller');
+      const { verificationCodes } = jest.requireActual('../../src/controller/authcontroller');
       verificationCodes.set(email, { code, expires: new Date(Date.now() + 1000 * 60 * 10) });
 
       (authService.updateVerificationStatus as jest.Mock).mockResolvedValueOnce(true);
@@ -137,7 +137,7 @@ describe('Auth Controller Integration Tests', () => {
       const email = 'janedoe@example.com';
       const wrongCode = '999999';
 
-      const { verificationCodes } = jest.requireActual('../../src/controllers/authcontroller');
+      const { verificationCodes } = jest.requireActual('../../src/controller/authcontroller');
       verificationCodes.set(email, { code: '123456', expires: new Date(Date.now() + 1000 * 60 * 10) });
 
       const res = await request(app).post('/auth/verify-email').send({ email, code: wrongCode });

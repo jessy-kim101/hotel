@@ -9,7 +9,9 @@
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/drizzle/migrate.ts",
     "seed": "tsx src/Drizzle/seed.ts",
-    "test": "jest"
+    "test": "jest",
+     "load:payment": "k6 run load-tests/load/payment.get.load.ts",
+     "load:room": "k6 run load-tests/load/room.get.load.ts"
   },
   "author": "",
   "license": "ISC",
@@ -29,11 +31,14 @@
   "dependencies": {
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/k6": "^1.1.1",
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "drizzle-orm": "^0.44.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "k6": "^0.0.0",
     "nodemailer": "^7.0.5",
     "pg": "^8.16.3"
   },

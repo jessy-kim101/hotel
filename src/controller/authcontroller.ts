@@ -8,10 +8,8 @@ import { emailService } from '../services/emailservice';
 import dotenv from 'dotenv';    
 dotenv.config();
 
-// Store verification codes with expiry (in memory - consider using Redis in production)
-const verificationCodes = new Map<string, { code: string; expires: Date }>();
+export const verificationCodes = new Map<string, { code: string; expires: Date }>();
 
-// Generate a random 6-digit verification code
 const generateVerificationCode = (): string => {
     return Math.floor(100000 + Math.random() * 900000).toString();
 };

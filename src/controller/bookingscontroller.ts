@@ -10,14 +10,15 @@ export const createBookingController = async (req: Request, res: Response) => {
 
     const createBooking = await createBookingService(newBooking);
 
-    if (!newBooking || (Array.isArray(newBooking) && newBooking.length === 0)) {
+ if (!createBooking || (Array.isArray(createBooking) && createBooking.length === 0)) {
   return res.status(400).json({ error: 'Booking creation failed' });
 }
 
 
+
     res.status(201).json({
       message: 'Booking created successfully',
-      booking: createBooking
+        booking: createBooking,
     });
 
   } catch (error) {

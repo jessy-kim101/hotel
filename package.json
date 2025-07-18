@@ -10,8 +10,13 @@
     "migrate": "tsx src/drizzle/migrate.ts",
     "seed": "tsx src/Drizzle/seed.ts",
     "test": "jest",
-     "load:payment": "k6 run load-tests/load/payment.get.load.ts",
-     "load:room": "k6 run load-tests/load/room.get.load.ts"
+     "load:room": "k6 run load-tests/load/room.get.load.ts",
+     "smoke:login": "k6 run load-tests/smoke/login.smoke.ts",
+      "smoke:register": "k6 run load-tests/smoke/register.smoke.ts",
+      "soak:room": "k6 run load-tests/soak/room.get.soak.ts",
+      "spike:room": "k6 run load-tests/spike/room.get.spike.ts",
+      "stress:room": "k6 run load-tests/stress/room.get.stress.ts"
+     
   },
   "author": "",
   "license": "ISC",

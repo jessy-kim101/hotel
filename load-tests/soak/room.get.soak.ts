@@ -1,17 +1,17 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://localhost:5000'; // Update if your API runs on a different port
 
 export const options = {
     stages: [
-        { duration: '30s', target: 40 },
-        { duration: '40s', target: 50 },
-        { duration: '10s', target: 0 }, 
+        { duration: '1m', target: 20 },   // ramp-up to 20 users over 2 minutes
+        { duration: '3m', target: 20 },  // stay at 20 users for 56 minutes (total 58m)
+        { duration: '40s', target: 0 },    // ramp-down to 0 users
     ],
     ext: {
         loadimpact: {
-            name: 'GET /rooms Load Test',
+            name: 'rooms /GET Soak Test',
         },
     },
 };
@@ -20,6 +20,7 @@ export default function () {
     const res = http.get(`${BASE_URL}/rooms`, {
         headers: {
             'Content-Type': 'application/json',
+            // 'Authorization': `Bearer YOUR_VALID_TOKEN`,
         },
     });
 
@@ -27,12 +28,13 @@ export default function () {
         'status is 200': (r) => r.status === 200,
         'has rooms array': (r) => {
             try {
-                const body = JSON.parse(typeof r.body === 'string' ? r.body : '');
+                const body = JSON.parse(r.body as string);
                 return Array.isArray(body.rooms);
             } catch {
                 return false;
             }
         },
     });
+
     sleep(1);
 }
